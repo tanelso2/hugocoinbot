@@ -16,6 +16,10 @@ const port_num = process.env.PORT_NUMBER || 8080;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(middleware.slackauth);
+app.use((req, res, next) => {
+  res.setHeader('Content-type', 'application/json');
+  next();
+});
 
 // Initialize
 db();
@@ -41,7 +45,10 @@ app.post('/', async (req, res) => {
     default:
       console.log('Lol how did you do this');
   }
-  res.status(200).send(resMessage);
+  res.status(200).send({
+    responseType: "in_channel",
+    text: resMessage
+  });
 });
 
 app.listen(port_num, () => {
