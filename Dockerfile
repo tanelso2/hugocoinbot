@@ -11,4 +11,4 @@ ADD src/ .
 EXPOSE 5000
 
 # Run it
-CMD node app.js
+CMD node --unhandled-rejections=strict app.js

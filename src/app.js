@@ -24,6 +24,10 @@ app.use((req, res, next) => {
 // Initialize
 db();
 
+app.get('/ping', async (_, res) => {
+  res.status(200).send("ok");
+});
+
 app.post('/', async (req, res) => {
   var resMessage;
   switch (req.body.command) {
