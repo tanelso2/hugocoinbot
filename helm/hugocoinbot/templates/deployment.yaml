@@ -27,11 +27,11 @@ spec:
             - name: PORT_NUMBER
               value: {{ .Values.service.port | quote }}
             - name: DB_USER
-              value: root # TODO
+              value: {{ .Values.mysql.mysqlUser }}
             - name: DB_PASS
-              value: {{ .Values.mysql.mysqlRootPassword }} # TODO
+              value: {{ .Values.mysql.mysqlPassword }} # TODO
             - name: DB_NAME
-              value: mysql # TODO
+              value: {{ .Values.mysql.mysqlDatabase }}
             - name: LOCAL_DB_HOST
               value: {{ .Release.Name }}-mysql
             - name: LOCAL_DB_PORT

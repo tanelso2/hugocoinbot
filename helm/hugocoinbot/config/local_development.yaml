@@ -4,3 +4,8 @@ ingress:
 image:
   repository: hugocoinbot
   pullPolicy: IfNotPresent
+
+mysql:
+  mysqlUser: tester
+  mysqlPassword: Cheese_123
+  mysqlDatabase: testing
