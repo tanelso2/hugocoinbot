@@ -1,28 +1,41 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "your-thesis-statement.fullname" . }}
+  name: {{ template "hugocoinbot.fullname" . }}
   labels:
-    app: {{ template "your-thesis-statement.name" . }}
-    chart: {{ template "your-thesis-statement.chart" . }}
+    app: {{ template "hugocoinbot.name" . }}
+    chart: {{ template "hugocoinbot.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "your-thesis-statement.name" . }}
+      app: {{ template "hugocoinbot.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "your-thesis-statement.name" . }}
+        app: {{ template "hugocoinbot.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT_NUMBER
+              value: {{ .Values.service.port | quote }}
+            - name: DB_USER
+              value: root # TODO
+            - name: DB_PASS
+              value: {{ .Values.mysql.mysqlRootPassword }} # TODO
+            - name: DB_NAME
+              value: mysql # TODO
+            - name: LOCAL_DB_HOST
+              value: {{ .Release.Name }}-mysql
+            - name: LOCAL_DB_PORT
+              value: "3306"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

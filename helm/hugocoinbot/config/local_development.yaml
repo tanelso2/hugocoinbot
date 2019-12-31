@@ -1,0 +1,6 @@
+ingress:
+  enabled: false
+
+image:
+  repository: hugocoinbot
+  pullPolicy: IfNotPresent
