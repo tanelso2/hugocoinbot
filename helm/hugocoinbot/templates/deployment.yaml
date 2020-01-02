@@ -1,0 +1,64 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "hugocoinbot.fullname" . }}
+  labels:
+    app: {{ template "hugocoinbot.name" . }}
+    chart: {{ template "hugocoinbot.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "hugocoinbot.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "hugocoinbot.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT_NUMBER
+              value: {{ .Values.service.port | quote }}
+            - name: DB_USER
+              value: {{ .Values.mysql.mysqlUser }}
+            - name: DB_PASS
+              value: {{ .Values.mysql.mysqlPassword }} # TODO
+            - name: DB_NAME
+              value: {{ .Values.mysql.mysqlDatabase }}
+            - name: LOCAL_DB_HOST
+              value: {{ .Release.Name }}-mysql
+            - name: LOCAL_DB_PORT
+              value: "3306"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
