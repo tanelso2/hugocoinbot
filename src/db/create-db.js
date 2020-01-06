@@ -6,8 +6,8 @@ module.exports = createPool = async () => {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     // socketPath: `/cloudsql/${process.env.CLOUD_SQL_CONNECTION_NAME}`,
-    host: process.env.LOCAL_DB_HOST || 'localhost',
-    port: process.env.LOCAL_DB_PORT || 3306,
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
     connectionLimit: 2,
     connectTimeout: 10000, // 10 seconds
     acquireTimeout: 10000, // 10 seconds

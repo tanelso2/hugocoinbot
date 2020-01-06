@@ -6,6 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 mysql:
+  useChart: true
   mysqlUser: tester
   mysqlPassword: Cheese_123
   mysqlDatabase: testing

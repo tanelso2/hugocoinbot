@@ -10,9 +10,6 @@ env:
   - HELM_RELEASE=hugocoinbot
   - HELM_CHART_DIR=helm/hugocoinbot
 before_install:
-- openssl aes-256-cbc -K $encrypted_bda615ba7c7a_key -iv $encrypted_bda615ba7c7a_iv
-  -in secrets.tar.gz.enc -out secrets.tar.gz -d
-- tar -zxf secrets.tar.gz
 - if [ ! -d $HOME/google-cloud-sdk/bin ]; then rm -rf $HOME/google-cloud-sdk; curl
   https://sdk.cloud.google.com | bash > /dev/null; fi
 - source $HOME/google-cloud-sdk/path.bash.inc
