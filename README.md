@@ -8,13 +8,13 @@ Node.js backend for Slack API keeping totals of everyone's "Hugocoins" on Slack.
   * https://hub.docker.com/_/mysql
 
 2. Setup local .env file
-  * PORT_NUMBER - node port, default 8080
+  * PORT - node port, default 8080
   * DB_USER - db user, default root
   * DB_PASS - db password
   * DB_NAME - db name
 
-  * LOCAL_DB_HOST - db host - should drop local prefix eventually
-  * LOCAL_DB_PORT - db port - should drop local prefix eventually
+  * DB_HOST - db host
+  * DB_PORT - db port
 
   * SLACK_VERIFICATION_TOKEN - found in slack api page for security purposes
     * there should be no sensitive data here but just in case,
