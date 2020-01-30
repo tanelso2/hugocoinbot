@@ -11,7 +11,7 @@ const helpMessage = require('./help-message');
 const middleware = require('./middleware');
 
 const app = express();
-const port_num = process.env.PORT_NUMBER || 8080;
+const port_num = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
