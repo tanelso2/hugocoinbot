@@ -1,34 +1,22 @@
 language: minimal
 sudo: required
 services:
-- docker
 env:
   global:
-  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
   - REPO_NAME=hugocoinbot
-  - GCR_REPO=gcr.io/kubernetes-221218
-  - HELM_RELEASE=hugocoinbot
-  - HELM_CHART_DIR=helm/hugocoinbot
 before_install:
-- if [ ! -d $HOME/google-cloud-sdk/bin ]; then rm -rf $HOME/google-cloud-sdk; curl
-  https://sdk.cloud.google.com | bash > /dev/null; fi
-- source $HOME/google-cloud-sdk/path.bash.inc
-- gcloud components update kubectl
-- gcloud version
 script:
-- docker build -t $REPO_NAME:latest .
-before_deploy:
-- wget https://raw.githubusercontent.com/tanelso2/deployment_scripts/master/deploy.sh
-- wget https://raw.githubusercontent.com/tanelso2/deployment_scripts/master/install_helm.sh
-- chmod +x install_helm.sh deploy.sh
-- ./install_helm.sh
-cache:
-  directories:
-  - "$HOME/google-cloud-sdk"
+- zip -r app.zip src package.json
 deploy:
-- provider: script
   skip_cleanup: true
-  script: ./deploy.sh
+  zip_file: app.zip
+  provider: elasticbeanstalk
+  access_key_id: AKIA44QE56LWLFAV3XUR
+  secret_access_key:
+    secure: md1tTS2PmYj1ehH3MDDkapRT+6QyAzWU5WzX9dh0YGjfALQTQTSMAsEOERxRY/xQt+aN4LcyQLfp+SrHpA84h+EeKM5pwDiarckh4W37ShmIKnWndb8+7OzKds3irVEU730leBkZtXXAV7kujGYTcVY6mRUmMT7Nu1WTuraI0zGLbxMwq7DWIlm2M9KX7EWCTpI/UsDM3ZdFG6CO3Vl+KMaNqpoLz4eFhMeeXj/L2Q5VNFQjXvyFY+o3UFwqjP3zXcZODH6rAsPRFxgAbUbBO0b6yPa/2GwtduBVgKdgDf/kF9C5XihziAutBL6ZGTAshW2TAnvWyx97GD6iPuabaBA7PiAbgqKysjqRQNiiGnDXJBMjwwNxQxaTOEId+MSdHGoBAsie9FutioN9M2QPX+zM3RJoPiSauSf/agTy8HRieGAQSSNV1Gx2/4AF0VRa+zL07jxvjHS9+4zOnC6sX5vqaKAAllERlNxz6yQbZ7KGYtaJXhFTj21kHExsJtukeoU1FAQa02WJnNY4FmhNnDX1z7uOmQf/qRZnEGZRF0YYJ2S6Ghe2TtmYhzgsL9BW7lz/qQTGujrdpCxNGPNff3mEcBZ5+ecpdsovuskIYMKWHWD3zp4ucwQVm926d67EofKEnOV1xCQV80PIkCfuM9CrfMVHqn5EYkV9DgVpZwc=
+  region: us-east-2
+  app: hugocoinbot
+  env: Hugocoinbot-dev
   on:
     repo: tanelso2/hugocoinbot
     branch: master
