@@ -17,6 +17,7 @@ deploy:
   region: us-east-2
   app: hugocoinbot
   env: Hugocoinbot-dev
+  bucket_name: hugocoinbot-eb
   on:
     repo: tanelso2/hugocoinbot
     branch: master
